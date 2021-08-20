@@ -1,7 +1,17 @@
 # pylint: disable=arguments-differ,missing-function-docstring,missing-class-docstring,unexpected-keyword-arg,no-value-for-parameter
 import tensorflow as tf
-import tensorflow_addons as tfa
 
+# modify record : 
+# remove super version : tfa . use tf.keras.activations.gelu() replace tfa.activations.gelu() 
+
+# import tensorflow.keras.backend as K
+
+# 更改地方 
+# def swish(x, beta):
+# 	return x * K.sigmoid(beta * x)
+	
+# def gelu(x):
+# 	return swish(x, 1.702)
 
 @tf.keras.utils.register_keras_serializable()
 class ClassToken(tf.keras.layers.Layer):
@@ -148,7 +158,7 @@ class TransformerBlock(tf.keras.layers.Layer):
                 )
                 if hasattr(tf.keras.activations, "gelu")
                 else tf.keras.layers.Lambda(
-                    lambda x: tfa.activations.gelu(x, approximate=False)
+                    lambda x: tf.keras.activations.gelu(x, approximate=False)
                 ),
                 tf.keras.layers.Dropout(self.dropout),
                 tf.keras.layers.Dense(input_shape[-1], name=f"{self.name}/Dense_1"),
